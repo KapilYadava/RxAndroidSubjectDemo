@@ -8,6 +8,7 @@ import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.subjects.AsyncSubject
 import io.reactivex.rxjava3.subjects.BehaviorSubject
+import io.reactivex.rxjava3.subjects.PublishSubject
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,7 +21,9 @@ class MainActivity : AppCompatActivity() {
         //asyncSubjectDemo1()
         //asyncSubjectDemo2()
         //behaviourSubjectDemo1()
-        behaviourSubjectDemo2()
+        //behaviourSubjectDemo2()
+        //publishSubjectDemo1()
+        publishSubjectDemo2()
     }
 
     private fun asyncSubjectDemo1(){
@@ -65,6 +68,36 @@ class MainActivity : AppCompatActivity() {
 
     private fun behaviourSubjectDemo2(){
         val subject = BehaviorSubject.create<String>()
+
+        subject.subscribe(getObserver1())
+
+        subject.onNext("Java")
+        subject.onNext("Kotlin")
+        subject.onNext("XML")
+
+        subject.subscribe(getObserver2())
+
+        subject.onNext("JSON")
+        subject.onComplete()
+
+        subject.subscribe(getObserver3())
+
+    }
+
+    private fun publishSubjectDemo1(){
+        val observable = Observable.just("Java", "Kotlin", "XML", "JSON")
+        val subject = PublishSubject.create<String>()
+
+        observable.subscribe(subject)
+
+        subject.subscribe(getObserver1())
+        subject.subscribe(getObserver2())
+        subject.subscribe(getObserver3())
+    }
+
+
+    private fun publishSubjectDemo2(){
+        val subject = PublishSubject.create<String>()
 
         subject.subscribe(getObserver1())
 
