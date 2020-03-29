@@ -1,8 +1,8 @@
 package com.example.rxjavasubjectdemo
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
@@ -16,7 +16,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        asyncSubjectDemo1()
+        //asyncSubjectDemo1()
+        asyncSubjectDemo2()
     }
 
     private fun asyncSubjectDemo1(){
@@ -26,6 +27,24 @@ class MainActivity : AppCompatActivity() {
 
         subject.subscribe(getObserver1())
         subject.subscribe(getObserver2())
+        subject.subscribe(getObserver3())
+
+    }
+
+    private fun asyncSubjectDemo2(){
+        val subject = AsyncSubject.create<String>()
+
+        subject.subscribe(getObserver1())
+
+        subject.onNext("Java")
+        subject.onNext("Kotlin")
+        subject.onNext("XML")
+
+        subject.subscribe(getObserver2())
+
+        subject.onNext("JSON")
+        subject.onComplete()
+
         subject.subscribe(getObserver3())
 
     }
