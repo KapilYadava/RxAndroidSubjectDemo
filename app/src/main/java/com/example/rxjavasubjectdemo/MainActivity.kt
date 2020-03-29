@@ -9,6 +9,7 @@ import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.subjects.AsyncSubject
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 import io.reactivex.rxjava3.subjects.PublishSubject
+import io.reactivex.rxjava3.subjects.ReplaySubject
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,7 +24,9 @@ class MainActivity : AppCompatActivity() {
         //behaviourSubjectDemo1()
         //behaviourSubjectDemo2()
         //publishSubjectDemo1()
-        publishSubjectDemo2()
+        //publishSubjectDemo2()
+        //replaySubjectDemo1()
+        replaySubjectDemo2()
     }
 
     private fun asyncSubjectDemo1(){
@@ -113,6 +116,37 @@ class MainActivity : AppCompatActivity() {
         subject.subscribe(getObserver3())
 
     }
+
+    private fun replaySubjectDemo1(){
+        val observable = Observable.just("Java", "Kotlin", "XML", "JSON")
+        val subject = ReplaySubject.create<String>()
+
+        observable.subscribe(subject)
+
+        subject.subscribe(getObserver1())
+        subject.subscribe(getObserver2())
+        subject.subscribe(getObserver3())
+    }
+
+
+    private fun replaySubjectDemo2(){
+        val subject = ReplaySubject.create<String>()
+
+        subject.subscribe(getObserver1())
+
+        subject.onNext("Java")
+        subject.onNext("Kotlin")
+        subject.onNext("XML")
+
+        subject.subscribe(getObserver2())
+
+        subject.onNext("JSON")
+        subject.onComplete()
+
+        subject.subscribe(getObserver3())
+
+    }
+
 
     private fun getObserver1(): Observer<String>{
         return object : Observer<String>{
