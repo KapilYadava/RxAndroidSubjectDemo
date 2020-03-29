@@ -7,6 +7,7 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.subjects.AsyncSubject
+import io.reactivex.rxjava3.subjects.BehaviorSubject
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,7 +18,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         //asyncSubjectDemo1()
-        asyncSubjectDemo2()
+        //asyncSubjectDemo2()
+        //behaviourSubjectDemo1()
+        behaviourSubjectDemo2()
     }
 
     private fun asyncSubjectDemo1(){
@@ -28,11 +31,40 @@ class MainActivity : AppCompatActivity() {
         subject.subscribe(getObserver1())
         subject.subscribe(getObserver2())
         subject.subscribe(getObserver3())
-
     }
 
     private fun asyncSubjectDemo2(){
         val subject = AsyncSubject.create<String>()
+
+        subject.subscribe(getObserver1())
+
+        subject.onNext("Java")
+        subject.onNext("Kotlin")
+        subject.onNext("XML")
+
+        subject.subscribe(getObserver2())
+
+        subject.onNext("JSON")
+        subject.onComplete()
+
+        subject.subscribe(getObserver3())
+
+    }
+
+    private fun behaviourSubjectDemo1(){
+        val observable = Observable.just("Java", "Kotlin", "XML", "JSON")
+        val subject = BehaviorSubject.create<String>()
+
+        observable.subscribe(subject)
+
+        subject.subscribe(getObserver1())
+        subject.subscribe(getObserver2())
+        subject.subscribe(getObserver3())
+    }
+
+
+    private fun behaviourSubjectDemo2(){
+        val subject = BehaviorSubject.create<String>()
 
         subject.subscribe(getObserver1())
 
